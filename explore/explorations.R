@@ -7,19 +7,7 @@ db <- dbConnect(SQLite(), dbname = "pkg/inst/ext/pgw.sqlite")
 
 
 #===========Number of books per character=====
-sql <- "
-SELECT 
-  count(b.Title) as NumberBooks, 
-Prefix,  
-First,  Nickname, Last, c.Title
-FROM 
-  books b,
-  characters c,
-  bookscharacters bc
-WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
-GROUP BY c.CharacterID
-ORDER BY NumberBooks
-"
+sql <- "SELECT * FROM vw_NumberBooks"
 
 dbGetQuery(db, sql)
 
@@ -66,7 +54,7 @@ FROM
   characters c,
   bookscharacters bc
 WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
-AND c.First = 'Tom' AND c.Last = 'Travers'
+AND c.First = 'Rupert' AND c.Last = 'Baxter'
 "
 
 sql <- "
@@ -109,6 +97,14 @@ dbGetQuery(db, sql)
 
 
 
+#========number of jobs==========
+sql <- "
+SELECT count(Job) as n, Job
+FROM charactersjobs
+GROUP BY job
+ORDER by n
+"
+dbGetQuery(db, sql)
 
 
 
