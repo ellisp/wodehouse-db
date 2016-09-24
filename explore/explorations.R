@@ -10,9 +10,8 @@ db <- dbConnect(SQLite(), dbname = "pkg/inst/ext/pgw.sqlite")
 sql <- "
 SELECT 
   count(b.Title) as NumberBooks, 
-Pre,  
-First,
-  Nickname, Last
+Prefix,  
+First,  Nickname, Last, c.Title
 FROM 
   books b,
   characters c,
@@ -29,14 +28,14 @@ dbGetQuery(db, sql)
 sql <- "
 SELECT 
   count(c.CharacterID) as NumberCharacters, 
-  b.Title
+  b.Title, b.Published
 FROM 
   books b,
   characters c,
   bookscharacters bc
 WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
 GROUP BY b.BookID
-ORDER by NumberCharacters
+ORDER by NumberCharacters, Published
 "
 
 dbGetQuery(db, sql)
@@ -53,7 +52,7 @@ books b,
 characters c,
 bookscharacters bc
 WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
-AND b.Title = 'Joy in the Morning'
+AND b.Title = 'Ice in the Bedroom'
 "
 
 dbGetQuery(db, sql)
@@ -67,8 +66,21 @@ FROM
   characters c,
   bookscharacters bc
 WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
-AND c.First = 'Agatha' AND c.Last = 'Gregson'
+AND c.First = 'Tom' AND c.Last = 'Travers'
 "
+
+sql <- "
+SELECT 
+  b.Title, b.Published
+FROM 
+  books b,
+  characters c,
+  bookscharacters bc
+WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
+AND c.First = 'Constance'
+ORDER BY Published
+"
+
 
 dbGetQuery(db, sql)
 
@@ -79,7 +91,8 @@ sql <- "
 SELECT * from (
     SELECT 
       count(bc.CharacterID) as NumberCharacters, 
-      b.Title
+      b.Title,
+      b.Published
     FROM 
       books b
     LEFT JOIN
@@ -89,7 +102,7 @@ SELECT * from (
     ORDER by NumberCharacters
   )
   WHERE NumberCharacters = 0
-
+  ORDER BY Published
 "
 
 dbGetQuery(db, sql)
