@@ -2,6 +2,7 @@ library(RSQLite)
 library(dplyr)
 library(tidyr)
 library(igraph)
+library(leaflet) # for colorNumeric
 
 # db <- dbConnect(SQLite(), dbname = "pkg/inst/ext/pgw.sqlite")
 
@@ -46,7 +47,7 @@ LEFT JOIN
 ON
   c2.CharacterID = Char2
 WHERE
-  c1.NumberBooks > 1
+  c1.NumberBooks > 1 AND c2.NumberBooks > 1
 ORDER BY Links
   "
 
@@ -63,7 +64,7 @@ bothways <- numberlinks %>%
 
 
 distances <- bothways %>%
-  mutate(Distance = 1 / Links + .5) %>%
+  mutate(Distance = 1 / (Links + .3) + .1) %>%
   select(-Links) %>%
   spread(Name2, Distance, fill = 2) 
 
@@ -77,11 +78,22 @@ characters <- as.data.frame(cmdscale(jitter(as.matrix(distances[ , -1]), factor 
 
 g <- graph_from_data_frame(numberlinks, directed = TRUE, vertices = characters$Name)
 
+edgecol <- colorNumeric("Blues", domain = NULL)
+
+# this is the attempt to set distances with multidimensional scaling but it doesn't work
+# l <- as.matrix(characters[ , c("V1", "V2")])
+
 plot(g, 
-     edge.arrow.size = 0, edge.curved = TRUE, edge.color = "grey89",
+     edge.arrow.size = 0, edge.curved = TRUE, edge.color = edgecol(log(numberlinks$Links)),
      vertex.frame.color = "grey98", vertex.color = "wheat1", 
      vertex.label.cex = 0.8,
      vertex.label.color = "darkviolet",
-     vertex.size = characters$NumberBooks,
-     layout = as.matrix(characters[ , c("V1", "V2")]))
+     vertex.size = characters$NumberBooks)
+
+networkD3::simpleNetwork(get.data.frame()) 
+
+head(numberlinks)
+library(networkD3)
+tmp <- with(numberlinks, data.frame(src = Name1, target = Name2))
+simpleNetwork(tmp)
 

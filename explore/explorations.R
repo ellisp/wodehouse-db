@@ -40,12 +40,13 @@ books b,
 characters c,
 bookscharacters bc
 WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
-AND b.Title = 'Ice in the Bedroom'
+AND b.Title = 'Pigs Have Wings'
 "
 
 dbGetQuery(db, sql)
 
 #==========books with a particular character===========
+
 sql <- "
 SELECT 
   b.Title
@@ -54,8 +55,9 @@ FROM
   characters c,
   bookscharacters bc
 WHERE b.BookID = bc.BookID AND c.CharacterID = bc.CharacterID
-AND c.First = 'Rupert' AND c.Last = 'Baxter'
+AND c.First = 'Percy' AND c.Last = 'Bulstrode'
 "
+dbGetQuery(db, sql)
 
 sql <- "
 SELECT 

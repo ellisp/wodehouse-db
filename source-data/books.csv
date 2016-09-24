@@ -87,7 +87,7 @@ BookID,Title,Published,Type,Description,Comments,USTitle,Classification,Plot
 90,Over Seventy,1956,Autobiography,"Subtitled ""An Autobiography With Digressions""",,"America, I like You",Non-fiction,
 91,Something Fishy,1957,Novel,,,The Butler Did It,Other,
 92,Ice in the Bedroom,1961,Novel,,,,Other,
-93,Frozen Assets,1964,Novel,,,,Other,
+93,Frozen Assets,1964,Novel,,,Biffen's Millions,Other,
 94,Company for Henry,1967,Novel,,,,Other,
 95,Do Butlers Burgle Banks?,1968,Novel,,,,Other,
 96,The Girl in Blue,1970,Novel,,,,Other,
@@ -98,3 +98,4 @@ BookID,Title,Published,Type,Description,Comments,USTitle,Classification,Plot
 101,The Great White Hope,1914,Novel,,,,Other,
 102,Mr Mulliner Speaking,1929,Stories,,,,Mixed,
 103,Plum Stones,1993,Stories,,Posthumous,,Mixed,
+104,Bill the Conqueror,1924,Novel,,,,Other,
